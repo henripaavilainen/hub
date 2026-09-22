@@ -2,13 +2,14 @@
 
 import { useEffect } from "react";
 import "./styles.css"
+import {getWord} from "@/app/api/wordle"
 
 export default function Home() {
 
   let id = 0;
 
   useEffect(() => {
-    function logKey(e) {
+    function logKey(e: KeyboardEvent) {
       let log = document.getElementById(id.toString());
       const key = e.key;
 
@@ -25,6 +26,11 @@ export default function Home() {
         log = document.getElementById(id.toString());
         log.textContent = '';
       }
+      if (key == 'Enter') {
+        let word = getWord("lol");
+        log = document.getElementById("message")
+        word.then((s) => log.textContent = s)
+      }
     };
 
     document.addEventListener("keydown", logKey);
@@ -38,6 +44,7 @@ export default function Home() {
     <main>
       <h1>Games</h1>
       <h2>Wordle</h2>
+      <p id="message"></p>
       <div id="grid">
         <div id="row0" className="row">
           <div id="0" className="col"></div>

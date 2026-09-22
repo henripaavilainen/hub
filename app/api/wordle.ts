@@ -1,4 +1,4 @@
 
-export async function validateWord(req: Request) {
-    
+export function getWord(word: string): Promise<string> {
+    return Promise.resolve(word);
 }
