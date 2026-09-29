@@ -2,14 +2,33 @@
 
 import { useEffect } from "react";
 import "./styles.css"
-import {getWord} from "@/app/api/wordle"
+
+
+async function submitGuess(guess: string) {
+
+  const response = await fetch("/api/wordle", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      guess: guess,
+    }),
+  });
+
+  const result: string[] = await response.json();
+
+  return result
+
+}
+
 
 export default function Home() {
 
   let id = 0;
 
   useEffect(() => {
-    function logKey(e: KeyboardEvent) {
+    async function logKey(e: KeyboardEvent) {
       let log = document.getElementById(id.toString());
       const key = e.key;
 
@@ -27,9 +46,9 @@ export default function Home() {
         log.textContent = '';
       }
       if (key == 'Enter') {
-        let word = getWord("lol");
+        const word = await submitGuess("CRANE")
         log = document.getElementById("message")
-        word.then((s) => log.textContent = s)
+        log.textContent = word.toString()
       }
     };
 
